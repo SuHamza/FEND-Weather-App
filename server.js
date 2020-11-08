@@ -30,13 +30,15 @@ const server = app.listen(port, () => {
 });
 
 /** GET Route that returns the projectData object */
-app.get("/", (req, res) => {
+app.get('/all', (req, res) => {
+	console.log(projectData);
 	res.send(projectData);
 });
 
 /** POST Route that adds incoming data to projectData */
 app.post('/setWeather', (req, res) => {
 	let data = req.body;
+	// console.log(data);
 	projectData['temp'] = data.temperature;
 	projectData['date'] = data.date;
 	projectData['feelings'] = data.feelings;
