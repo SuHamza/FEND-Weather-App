@@ -46,7 +46,7 @@ const updateUI = async () => {
 		const appData = await request.json();
 		console.log('App Data:', appData);
 		document.getElementById('date').innerHTML = appData.date;
-		document.getElementById('temp').innerHTML = appData.temp;
+		document.getElementById('temp').innerHTML = appData.temp + ' &deg;F';
 		document.getElementById('content').innerHTML = appData.feelings;
 	}
 	catch (error) {
@@ -58,25 +58,27 @@ const updateUI = async () => {
 
 /** Event Listener for the element with the id: generate, 
  * with a callback function to execute when it is clicked */
-document.getElementById('generate').addEventListener('click', () => {
+document.getElementById('generate').addEventListener('click', (e) => {
+	// Prevent default form submission
+	e.preventDefault();
 	const zipCode = document.getElementById('zip').value;
 	const fullURL = baseURL + zipCode + apiKey;
 	// User Response
 	const feelings = document.getElementById('feelings').value;
 	// Check Zipcode is not empty
-	// if (zipCode) {
-	// GET request to the OpenWeatherMap API
-	getWeather(fullURL)
-		.then((data) => {
-			console.log("Weather Data: ", data.main.temp);
-			console.log("Feelings", feelings);
-			const weatherData = {
-				'temperature': data.main.temp,
-				'date': newDate,
-				'feelings': feelings
-			};
-			postWeather('/setWeather', weatherData);
-		})
-		.then(() => { updateUI() });
-	// }
+	if (zipCode) {
+		// GET request to the OpenWeatherMap API
+		getWeather(fullURL)
+			.then((data) => {
+				console.log("Weather Data: ", data.main.temp);
+				console.log("Feelings", feelings);
+				const weatherData = {
+					'temperature': data.main.temp,
+					'date': newDate,
+					'feelings': feelings
+				};
+				postWeather('/setWeather', weatherData);
+			})
+			.then(() => { updateUI() });
+	}
 });
