@@ -63,6 +63,8 @@ document.getElementById('generate').addEventListener('click', () => {
 	const fullURL = baseURL + zipCode + apiKey;
 	// User Response
 	const feelings = document.getElementById('feelings').value;
+	// Check Zipcode is not empty
+	// if (zipCode) {
 	// GET request to the OpenWeatherMap API
 	getWeather(fullURL)
 		.then((data) => {
@@ -76,4 +78,5 @@ document.getElementById('generate').addEventListener('click', () => {
 			postWeather('/setWeather', weatherData);
 		})
 		.then(() => { updateUI() });
+	// }
 });
